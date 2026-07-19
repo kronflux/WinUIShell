@@ -1,7 +1,7 @@
 ﻿using System.Management.Automation;
 using System.Management.Automation.Runspaces;
-using WinUIShell.Common;
-using WinUIShell.Generator;
+using RpcUIShell.Core;
+using RpcUIShell.Generator;
 
 namespace WinUIShell.Microsoft.UI.Xaml.Controls;
 

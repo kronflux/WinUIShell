@@ -1,4 +1,4 @@
-﻿using WinUIShell.Generator;
+﻿using RpcUIShell.Generator;
 namespace WinUIShell.Microsoft.UI.Xaml.Controls;
 
 [SurpressGeneratorMethodByName("Navigate")]

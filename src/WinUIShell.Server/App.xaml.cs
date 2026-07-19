@@ -43,6 +43,7 @@ public partial class App : Application
 
         InitializeComponent();
         ObjectStore.Get().SetObjectIdPrefix("s");
+        TypeMappingInitializer.Init();
         CommandServer.Get().Init(_upstreamPipeName);
         CommandClient.Get().Init(_downstreamPipeName);
         ObjectValidator.Init();

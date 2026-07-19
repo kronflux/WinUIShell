@@ -1,5 +1,5 @@
 ﻿
-using WinUIShell.Common;
+using RpcUIShell.Core;
 namespace WinUIShell;
 
 public interface IWinUIShellObject
