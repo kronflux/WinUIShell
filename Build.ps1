@@ -14,7 +14,7 @@ $copyExtensions = @('.dll', '.pdb')
 $src = "$PSScriptRoot/src"
 $apiSrc = "$src/WinUIShell.ApiExporter"
 $coreSrc = "$src/WinUIShell"
-$depSrc = "$src/WinUIShell.Common"
+$depSrc = "$src/RpcUIShell.Core"
 $serverSrc = "$src/WinUIShell.Server"
 
 $apiPublish = [System.IO.Path]::GetFullPath("$apiSrc/bin/$Configuration/$serverTarget/publish/")
