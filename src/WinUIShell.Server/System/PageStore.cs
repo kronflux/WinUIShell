@@ -1,5 +1,5 @@
 ﻿using Microsoft.UI.Xaml.Navigation;
-using WinUIShell.Common;
+using RpcUIShell.Core;
 
 namespace WinUIShell.Server;
 

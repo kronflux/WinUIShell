@@ -106,24 +106,7 @@ public class EventCallbackBinder<TDisabledControlsHolder> where TDisabledControl
 
             CommandClient.Get().ProcessTemporaryQueue(processingQueueId, temporaryQueueId);
 
-            try
-            {
-                if (runspaceMode == EventCallbackRunspaceMode.MainRunspaceSyncUI)
-                {
-                    _blockingWaitTaskAction(invokeTask);
-                }
-                else
-                {
-                    await invokeTask;
-                }
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine("EventCallback faild:");
-                Debug.WriteLine(e);
-                CommandClient.Get().WriteError("EventCallback faild:");
-                CommandClient.Get().WriteException(e);
-            }
+            await WaitEventCallbackAsync(runspaceMode, invokeTask);
 
             CommandClient.Get().DestroyObject(processingQueueId, eventArgsId);
             disabledControls.Enable();
@@ -132,7 +115,7 @@ public class EventCallbackBinder<TDisabledControlsHolder> where TDisabledControl
         };
     }
 
-    private static CommandQueueId GetProcessingQueueId(EventCallbackRunspaceMode runspaceMode, int mainRunspaceId)
+    public CommandQueueId GetProcessingQueueId(EventCallbackRunspaceMode runspaceMode, int mainRunspaceId)
     {
         if (runspaceMode == EventCallbackRunspaceMode.RunspacePoolAsyncUI)
         {
@@ -141,6 +124,28 @@ public class EventCallbackBinder<TDisabledControlsHolder> where TDisabledControl
         else
         {
             return new CommandQueueId(CommandQueueType.RunspaceId, mainRunspaceId);
+        }
+    }
+
+    public async Task WaitEventCallbackAsync(EventCallbackRunspaceMode runspaceMode, Task invokeTask)
+    {
+        try
+        {
+            if (runspaceMode == EventCallbackRunspaceMode.MainRunspaceSyncUI)
+            {
+                _blockingWaitTaskAction(invokeTask);
+            }
+            else
+            {
+                await invokeTask;
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.WriteLine("EventCallback faild:");
+            Debug.WriteLine(e);
+            CommandClient.Get().WriteError("EventCallback faild:");
+            CommandClient.Get().WriteException(e);
         }
     }
 }
