@@ -1,5 +1,5 @@
 ﻿using Microsoft.UI.Xaml;
-using WinUIShell.Common;
+using RpcUIShell.Core;
 
 namespace WinUIShell.Server;
 
@@ -20,7 +20,7 @@ internal static class WindowAccessor
             // Make sure that all running event callbacks including ones processed on the Runspace pool are completed
             // so that Window.WaitForClosed() can wait for all background event callbacks associated with the window.
             await windowStore.WaitForAllChildEventCallbacksFinishedAsync(window);
-            await CommandClient.Get().SetPropertyAsync(CommandQueueId.Immediate, id, "IsClosed", true);
+            await CommandClient.Get().SetPropertyAsync(CommandQueueId.Immediate, id, typeName: null, "IsClosed", true);
         };
     }
 }

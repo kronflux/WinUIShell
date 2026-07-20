@@ -1,10 +1,25 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <Import Project="..\WinUIShell.Server\Server.props" />
   <PropertyGroup>
-    <RootNamespace>WinUIShell.Server</RootNamespace>
+    <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+    <RpcUIShellGenerator_TypeMappingRootNamespace>WinUIShell.Server</RpcUIShellGenerator_TypeMappingRootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\WinUIShell.Common\WinUIShell.Common.csproj" />
+    <ProjectReference Include="..\RpcUIShell.Core\RpcUIShell.Core.csproj" />
+    <ProjectReference Include="..\RpcUIShell.Generator\RpcUIShell.Generator.csproj">
+      <OutputItemType>Analyzer</OutputItemType>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
   </ItemGroup>
+
+  <ItemGroup>
+    <CompilerVisibleProperty Include="RpcUIShellGenerator_TypeMappingRootNamespace" />
+    <AdditionalFiles Include="..\WinUIShell.ApiExporter\Api.xml" />
+  </ItemGroup>
+
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <!-- Somehow the generator doesn't create the generated folder and just errors out, so we create it manually -->
+    <Exec Command="if not exist &quot;$(ProjectDir)$(IntermediateOutputPath)generated&quot; (&#xD;&#xA;    mkdir &quot;$(ProjectDir)$(IntermediateOutputPath)generated&quot;&#xD;&#xA;)" />
+  </Target>
 </Project>

@@ -1,5 +1,4 @@
-﻿using WinUIShell.Common;
-namespace WinUIShell.Windows.Foundation;
+﻿namespace WinUIShell.Windows.Foundation;
 
 internal static class AsyncInfoMethods
 {

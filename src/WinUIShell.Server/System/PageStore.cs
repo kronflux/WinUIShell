@@ -1,5 +1,5 @@
 ﻿using Microsoft.UI.Xaml.Navigation;
-using WinUIShell.Common;
+using RpcUIShell.Core;
 
 namespace WinUIShell.Server;
 
@@ -12,6 +12,7 @@ internal sealed class PageStore : Singleton<PageStore>
         public EventCallbackRunspaceMode OnLoadedCallbackRunspaceMode { get; set; }
         public int OnLoadedCallbackMainRunspaceId { get; set; }
         public NavigationCacheMode NavigationCacheMode { get; set; }
+        public object?[]? DisabledControlsWhileProcessing { get; set; }
     }
 
     private readonly int _maxPageCount;
@@ -45,7 +46,8 @@ internal sealed class PageStore : Singleton<PageStore>
         string pageName,
         EventCallbackRunspaceMode onLoadedCallbackRunspaceMode,
         int onLoadedCallbackMainRunspaceId,
-        NavigationCacheMode navigationCacheMode)
+        NavigationCacheMode navigationCacheMode,
+        object?[]? disabledControlsWhileProcessing)
     {
         lock (_remainingPageTypes)
         {
@@ -54,6 +56,7 @@ internal sealed class PageStore : Singleton<PageStore>
                 pageProperty.OnLoadedCallbackRunspaceMode = onLoadedCallbackRunspaceMode;
                 pageProperty.OnLoadedCallbackMainRunspaceId = onLoadedCallbackMainRunspaceId;
                 pageProperty.NavigationCacheMode = navigationCacheMode;
+                pageProperty.DisabledControlsWhileProcessing = disabledControlsWhileProcessing;
                 return pageProperty.Type!;
             }
 
@@ -65,7 +68,8 @@ internal sealed class PageStore : Singleton<PageStore>
                     Type = newPageType,
                     OnLoadedCallbackRunspaceMode = onLoadedCallbackRunspaceMode,
                     OnLoadedCallbackMainRunspaceId = onLoadedCallbackMainRunspaceId,
-                    NavigationCacheMode = navigationCacheMode
+                    NavigationCacheMode = navigationCacheMode,
+                    DisabledControlsWhileProcessing = disabledControlsWhileProcessing
                 };
                 return newPageType;
             }

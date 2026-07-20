@@ -1,7 +1,7 @@
 ﻿using System.Management.Automation;
 using System.Management.Automation.Runspaces;
-using WinUIShell.Common;
-using WinUIShell.Generator;
+using RpcUIShell.Core;
+using RpcUIShell.Generator;
 
 namespace WinUIShell.Microsoft.UI.Xaml.Controls;
 
@@ -41,6 +41,9 @@ public partial class Frame : ContentControl
     {
         ArgumentNullException.ThrowIfNull(onLoaded);
         PageStore.Get().RegisterLoaded(pageName, onLoaded);
+
+        ObjectId[]? disabledControlIds = onLoaded.GetDisabledControlIds();
+
         return CommandClient.Get().InvokeStaticMethodAndGetResult<bool>(
             _accessorClassName,
             nameof(Navigate),
@@ -49,6 +52,7 @@ public partial class Frame : ContentControl
             Runspace.DefaultRunspace.Id,
             pageName,
             transitionOverride?.WinUIShellObjectId,
-            cacheMode);
+            cacheMode,
+            disabledControlIds);
     }
 }

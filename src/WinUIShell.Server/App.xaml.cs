@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
-using WinUIShell.Common;
+using RpcUIShell.Core;
 
 namespace WinUIShell.Server;
 
@@ -43,6 +43,7 @@ public partial class App : Application
 
         InitializeComponent();
         ObjectStore.Get().SetObjectIdPrefix("s");
+        TypeMappingInitializer.Init();
         CommandServer.Get().Init(_upstreamPipeName);
         CommandClient.Get().Init(_downstreamPipeName);
         ObjectValidator.Init();

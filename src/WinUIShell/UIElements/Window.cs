@@ -1,6 +1,6 @@
 ﻿using System.Management.Automation;
-using WinUIShell.Common;
-using WinUIShell.Generator;
+using RpcUIShell.Core;
+using RpcUIShell.Generator;
 
 namespace WinUIShell.Microsoft.UI.Xaml;
 
@@ -23,7 +23,7 @@ public partial class Window : IWinUIShellObject
     public Window()
     {
         WinUIShellObjectId = CommandClient.Get().CreateObject(
-            ObjectTypeMapping.Get().GetTargetTypeName<Window>(),
+            ObjectTypeMapping.Get().GetTargetTypeName(typeof(Window)),
             this);
 
         CommandClient.Get().InvokeStaticMethod(_accessorClassName, "RegisterWindow", WinUIShellObjectId);
@@ -43,7 +43,10 @@ public partial class Window : IWinUIShellObject
 
         _isActivateCalled = true;
         IsClosed = false;
-        CommandClient.Get().InvokeMethod(WinUIShellObjectId, nameof(Activate));
+        CommandClient.Get().InvokeMethod(
+            WinUIShellObjectId,
+            null,
+            nameof(Activate));
     }
 
     [SurpressGeneratorMethodByName]
@@ -60,7 +63,7 @@ public partial class Window : IWinUIShellObject
         _closedCallbacks.Add(
             WinUIShellObjectId,
             "Closed",
-            ObjectTypeMapping.Get().GetTargetTypeName<WindowEventArgs>(),
+            ObjectTypeMapping.Get().GetTargetTypeName(typeof(WindowEventArgs)),
             eventCallback);
     }
 
@@ -71,7 +74,10 @@ public partial class Window : IWinUIShellObject
             return;
 
         _isCloseCalled = true;
-        CommandClient.Get().InvokeMethod(WinUIShellObjectId, nameof(Close));
+        CommandClient.Get().InvokeMethod(
+            WinUIShellObjectId,
+            null,
+            nameof(Close));
     }
 
     public void WaitForClosed()

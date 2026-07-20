@@ -1,6 +1,6 @@
 ﻿using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using WinUIShell.Common;
+using RpcUIShell.Core;
 
 namespace WinUIShell.Server;
 
@@ -24,7 +24,7 @@ public interface IPage
         ArgumentNullException.ThrowIfNull(page);
 
         var pageProperty = PageStore.Get().GetPageProperty(page.GetType());
-        var queueId = EventCallback.GetProcessingQueueId(
+        var queueId = EventCallback.s_binder.GetProcessingQueueId(
             pageProperty.OnLoadedCallbackRunspaceMode,
             pageProperty.OnLoadedCallbackMainRunspaceId);
 
@@ -36,10 +36,14 @@ public interface IPage
     {
         return async (object sender, RoutedEventArgs eventArgs) =>
         {
+            var parentWindow = EventCallback.s_binder.EnterEventCallbackAndGetParentWindow(sender);
+
             var pageProperty = PageStore.Get().GetPageProperty(typeof(TPage));
+            IDisabledControlsHolder disabledControls = EventCallback.s_binder.CreateDisabledControlsHolder(pageProperty.DisabledControlsWhileProcessing);
+            disabledControls.Disable();
 
             var temporaryQueueId = CommandClient.Get().CreateTemporaryQueueId();
-            var processingQueueId = EventCallback.GetProcessingQueueId(
+            var processingQueueId = EventCallback.s_binder.GetProcessingQueueId(
                 pageProperty.OnLoadedCallbackRunspaceMode,
                 pageProperty.OnLoadedCallbackMainRunspaceId);
 
@@ -63,16 +67,12 @@ public interface IPage
 
             CommandClient.Get().ProcessTemporaryQueue(processingQueueId, temporaryQueueId);
 
-            if (pageProperty.OnLoadedCallbackRunspaceMode == EventCallbackRunspaceMode.MainRunspaceSyncUI)
-            {
-                EventCallback.BlockingWaitTask(invokeTask);
-            }
-            else
-            {
-                await invokeTask;
-            }
+            await EventCallback.s_binder.WaitEventCallbackAsync(pageProperty.OnLoadedCallbackRunspaceMode, invokeTask);
 
             CommandClient.Get().DestroyObject(processingQueueId, eventArgsId);
+            disabledControls.Enable();
+
+            EventCallback.s_binder.ExitEventCallback(parentWindow);
         };
     }
 }

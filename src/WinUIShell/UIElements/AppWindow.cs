@@ -1,4 +1,4 @@
-﻿using WinUIShell.Common;
+﻿using RpcUIShell.Core;
 
 namespace WinUIShell.Microsoft.UI.Windowing;
 
@@ -8,7 +8,11 @@ public partial class AppWindow : IWinUIShellObject
     {
         var size = new WinUIShell.Windows.Graphics.SizeInt32(width, height);
 
-        CommandClient.Get().InvokeMethod(WinUIShellObjectId, "Resize", size.WinUIShellObjectId);
+        CommandClient.Get().InvokeMethod(
+            WinUIShellObjectId,
+            null,
+            "Resize",
+            size.WinUIShellObjectId);
 
         CommandClient.Get().DestroyObject(size.WinUIShellObjectId);
     }
@@ -17,7 +21,11 @@ public partial class AppWindow : IWinUIShellObject
     {
         var size = new WinUIShell.Windows.Graphics.SizeInt32(width, height);
 
-        CommandClient.Get().InvokeMethod(WinUIShellObjectId, "ResizeClient", size.WinUIShellObjectId);
+        CommandClient.Get().InvokeMethod(
+            WinUIShellObjectId,
+            null,
+            "ResizeClient",
+            size.WinUIShellObjectId);
 
         CommandClient.Get().DestroyObject(size.WinUIShellObjectId);
     }
