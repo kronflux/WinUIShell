@@ -13,13 +13,15 @@ internal static class FrameAccessor
         int onLoadedCallbackRunspaceId,
         string pageName,
         NavigationTransitionInfo? transitionOverride,
-        NavigationCacheMode navigationCacheMode)
+        NavigationCacheMode navigationCacheMode,
+        object?[]? disabledControlsWhileProcessing)
     {
         var pageType = PageStore.Get().RegisterPageProperty(
             pageName,
             onLoadedCallbackRunspaceMode,
             onLoadedCallbackRunspaceId,
-            navigationCacheMode);
+            navigationCacheMode,
+            disabledControlsWhileProcessing);
         return frame.Navigate(pageType, null, transitionOverride);
     }
 

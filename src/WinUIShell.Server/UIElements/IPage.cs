@@ -36,7 +36,11 @@ public interface IPage
     {
         return async (object sender, RoutedEventArgs eventArgs) =>
         {
+            var parentWindow = EventCallback.s_binder.EnterEventCallbackAndGetParentWindow(sender);
+
             var pageProperty = PageStore.Get().GetPageProperty(typeof(TPage));
+            IDisabledControlsHolder disabledControls = EventCallback.s_binder.CreateDisabledControlsHolder(pageProperty.DisabledControlsWhileProcessing);
+            disabledControls.Disable();
 
             var temporaryQueueId = CommandClient.Get().CreateTemporaryQueueId();
             var processingQueueId = EventCallback.s_binder.GetProcessingQueueId(
@@ -66,6 +70,9 @@ public interface IPage
             await EventCallback.s_binder.WaitEventCallbackAsync(pageProperty.OnLoadedCallbackRunspaceMode, invokeTask);
 
             CommandClient.Get().DestroyObject(processingQueueId, eventArgsId);
+            disabledControls.Enable();
+
+            EventCallback.s_binder.ExitEventCallback(parentWindow);
         };
     }
 }

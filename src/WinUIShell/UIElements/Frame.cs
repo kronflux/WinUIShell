@@ -41,6 +41,9 @@ public partial class Frame : ContentControl
     {
         ArgumentNullException.ThrowIfNull(onLoaded);
         PageStore.Get().RegisterLoaded(pageName, onLoaded);
+
+        ObjectId[]? disabledControlIds = onLoaded.GetDisabledControlIds();
+
         return CommandClient.Get().InvokeStaticMethodAndGetResult<bool>(
             _accessorClassName,
             nameof(Navigate),
@@ -49,6 +52,7 @@ public partial class Frame : ContentControl
             Runspace.DefaultRunspace.Id,
             pageName,
             transitionOverride?.WinUIShellObjectId,
-            cacheMode);
+            cacheMode,
+            disabledControlIds);
     }
 }
