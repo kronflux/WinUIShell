@@ -24,6 +24,12 @@ Shows how to open a `ContentDialog` and waits for the async operation to complet
 
 ![ContentDialog](https://github.com/user-attachments/assets/9392843c-5e19-43eb-b732-d7fd178dff0b)
 
+## [DataBinding.ps1](./DataBinding.ps1)
+
+Basic data binding using `DataSource` class.
+
+<img width="532" height="356" alt="image" src="https://github.com/user-attachments/assets/16bd2a2e-6c7d-4d27-9b97-04391a8baf4e" />
+
 ## [GridView.ps1](./GridView.ps1)
 
 <img width="727" height="634" alt="image" src="https://github.com/user-attachments/assets/ab9f66fa-4e07-469f-ae3d-d76f49447e69" />
