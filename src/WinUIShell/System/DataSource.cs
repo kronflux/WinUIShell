@@ -9,7 +9,7 @@ namespace WinUIShell;
 public class DataSource : DynamicObject, IDictionary<string, object?>, IWinUIShellObject
 #pragma warning restore CA1710
 {
-    private readonly HashSet<string> _memberNames = [];
+    private readonly HashSet<string> _memberNames = new(StringComparer.OrdinalIgnoreCase);
 
     public ObjectId WinUIShellObjectId { get; protected set; } = new();
 
