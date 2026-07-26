@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.13.0] - 2026-07-26
+
+### Added
+
+- Added `WinUIShell.DataSource` that supports data binding
+
+### Changed
+
+- Updated WindowsAppSDK to 2.3.1
+
 ## [0.12.0] - 2026-03-14
 
 ### Added
