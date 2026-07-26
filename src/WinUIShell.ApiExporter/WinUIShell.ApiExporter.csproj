@@ -2,5 +2,7 @@
   <Import Project="..\WinUIShell.Server\Server.props" />
   <ItemGroup>
       <ProjectReference Include="..\RpcUIShell.Core\RpcUIShell.Core.csproj" />
+      <Compile Include="..\WinUIShell.Server\System\DataSource.cs" Link="ServerTypes\DataSource.cs" />
+      <Compile Include="..\WinUIShell.Server\System\DataSourceCustomProperty.cs" Link="ServerTypes\DataSourceCustomProperty.cs" />
   </ItemGroup>
 </Project>

@@ -74,7 +74,7 @@ public partial class App : Application
         exporter.AddTypesInAssembly(typeof(Microsoft.UI.Windowing.CompactOverlaySize)); // Microsoft.InteractiveExperiences.Projection
         exporter.AddTypesInAssembly(typeof(Windows.UI.Text.FontStretch)); // Microsoft.Windows.SDK.NET
         exporter.AddTypesInAssembly(typeof(Microsoft.Windows.Storage.Pickers.FileOpenPicker)); // Microsoft.Windows.Storage.Pickers.Projection
-
+        exporter.AddTypeMapping(typeof(Server.DataSource));
         exporter.Export(apiFilePath);
 
         Exit();
