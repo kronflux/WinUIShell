@@ -47,10 +47,13 @@ public interface IPage
                 pageProperty.OnLoadedCallbackRunspaceMode,
                 pageProperty.OnLoadedCallbackMainRunspaceId);
 
-            page.Id = CommandClient.Get().CreateObjectWithId(
-                temporaryQueueId,
-                "WinUIShell.Microsoft.UI.Xaml.Controls.Page, WinUIShell",
-                page);
+            if (page.Id.IsNull())
+            {
+                page.Id = CommandClient.Get().CreateObjectWithId(
+                    temporaryQueueId,
+                    "WinUIShell.Microsoft.UI.Xaml.Controls.Page, WinUIShell",
+                    page);
+            }
 
             var eventArgsId = CommandClient.Get().CreateObjectWithId(
                 temporaryQueueId,
